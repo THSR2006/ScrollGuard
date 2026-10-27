@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "ScrollGuard",
+  "version": "1.0.0",
+  "description": "Track and manage your short-form video usage with daily watch limits, mindful break alerts, and detailed usage reports.",
+  "author": "Hemanth Sri Ram",
+  "homepage_url": "https://github.com/YOUR-USERNAME/scrollguard",
+  "permissions": ["storage", "tabs", "downloads"],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "https://youtube.com/*",
+    "https://www.instagram.com/*",
+    "https://instagram.com/*",
+    "https://www.tiktok.com/*",
+    "https://tiktok.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "ScrollGuard",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "logo-16.png",
+      "32": "logo-32.png",
+      "48": "logo-48.png",
+      "128": "logo-128.png"
+    }
+  },
+  "icons": {
+    "16": "logo-16.png",
+    "32": "logo-32.png",
+    "48": "logo-48.png",
+    "128": "logo-128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://youtube.com/*",
+        "https://www.instagram.com/*",
+        "https://instagram.com/*",
+        "https://www.tiktok.com/*",
+        "https://tiktok.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_page": "popup.html"
+}
