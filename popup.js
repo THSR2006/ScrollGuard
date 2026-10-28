@@ -619,9 +619,9 @@ function render() {
   // Watch Time Today & Platform breakdown
   $("todayWatchTime").textContent = formatHoursMins(day.watchSeconds);
 
-  const ytSec = day.platforms?.youtube ?? Math.floor(day.watchSeconds * 0.52);
-  const igSec = day.platforms?.instagram ?? Math.floor(day.watchSeconds * 0.33);
-  const ttSec = day.platforms?.tiktok ?? Math.max(0, day.watchSeconds - ytSec - igSec);
+  const ytSec = Number(day.platforms?.youtube) || 0;
+  const igSec = Number(day.platforms?.instagram) || 0;
+  const ttSec = Number(day.platforms?.tiktok) || 0;
 
   $("pTimeYoutube").textContent = formatHoursMins(ytSec);
   $("pTimeInstagram").textContent = formatHoursMins(igSec);
