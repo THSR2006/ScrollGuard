@@ -45,11 +45,17 @@ const escapeHtml = (value) =>
     "'": "&#39;",
   })[character]);
 
-const isSafeImageSource = (value) =>
-  typeof value === "string" &&
-  (/^data:image\//i.test(value) ||
-    /^blob:/i.test(value) ||
-    /^https:\/\//i.test(value));
+const isSafeImageSource = (value) => {
+  if (typeof value !== "string") return false;
+  if (/^data:image\//i.test(value) || /^blob:/i.test(value)) return true;
+  if (!/^https:\/\//i.test(value)) return false;
+  try {
+    const url = new URL(value);
+    return Boolean(url.hostname) && !url.username && !url.password;
+  } catch {
+    return false;
+  }
+};
 
 const sanitizeWatchLimit = (value) => {
   const minutes = Number(value);

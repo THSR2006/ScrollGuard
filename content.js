@@ -115,12 +115,15 @@
   }
 
   function isSafeImageSource(value) {
-    return (
-      typeof value === "string" &&
-      (/^data:image\//i.test(value) ||
-        /^blob:/i.test(value) ||
-        /^https:\/\//i.test(value))
-    );
+    if (typeof value !== "string") return false;
+    if (/^data:image\//i.test(value) || /^blob:/i.test(value)) return true;
+    if (!/^https:\/\//i.test(value)) return false;
+    try {
+      const url = new URL(value);
+      return Boolean(url.hostname) && !url.username && !url.password;
+    } catch {
+      return false;
+    }
   }
 
   function showLimit(message) {
