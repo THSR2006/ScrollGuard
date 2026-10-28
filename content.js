@@ -17,6 +17,7 @@
   const shownLimits = new Set();
   const pausedVideos = new Set();
   const activeLimits = new Set();
+  const TRACK_INTERVAL_SECONDS = 5;
 
   function sendMessage(message, callback) {
     try {
@@ -82,7 +83,10 @@
         newVideo: true,
       });
     }
-    track("watch", { seconds: 5, category: categoryFor(video) });
+    track("watch", {
+      seconds: TRACK_INTERVAL_SECONDS,
+      category: categoryFor(video),
+    });
   }
 
   function pauseAllVideos() {
@@ -169,7 +173,7 @@
     document.documentElement.appendChild(root);
   }
 
-  setInterval(inspectVideo, 5000);
+  setInterval(inspectVideo, TRACK_INTERVAL_SECONDS * 1000);
 
   chrome.runtime.onMessage.addListener((message) => {
     if (message.type !== "LIMIT_REACHED") return;
