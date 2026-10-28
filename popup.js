@@ -42,6 +42,11 @@ const isSafeImageSource = (value) =>
     /^blob:/i.test(value) ||
     /^https:\/\//i.test(value));
 
+const sanitizeWatchLimit = (value) => {
+  const minutes = Number(value);
+  return Number.isFinite(minutes) ? Math.max(0, Math.floor(minutes)) : 0;
+};
+
 // Rich mock data covering past 30 days and year months
 const generateInitialMockState = () => {
   const days = {};
@@ -763,7 +768,7 @@ $("save").onclick = async () => {
   const alertImage = uploadedImage || $("alertImage").value.trim();
   state.settings = {
     ...state.settings,
-    watchLimitMinutes: Number($("watchLimit").value) || 0,
+    watchLimitMinutes: sanitizeWatchLimit($("watchLimit").value),
     alertText: $("alertText").value.trim(),
     alertMode: isSafeImageSource(alertImage) && $("alertMode").value === "image" ? "image" : "text",
     alertImage: isSafeImageSource(alertImage) ? alertImage : "",
