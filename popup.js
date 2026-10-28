@@ -600,6 +600,7 @@ function render() {
   const toggleBtn = $("themeToggle");
   if (toggleBtn) {
     toggleBtn.setAttribute("aria-checked", isDark ? "true" : "false");
+    toggleBtn.setAttribute("aria-pressed", isDark ? "true" : "false");
     toggleBtn.setAttribute(
       "aria-label",
       isDark ? "Switch to light mode" : "Switch to dark mode",
