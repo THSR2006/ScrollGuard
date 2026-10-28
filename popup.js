@@ -847,10 +847,12 @@ function download(content, filename, type) {
     chrome.downloads.download({ url, filename, saveAs: true });
   } else {
     const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
+    link.href = url;
     link.download = filename;
     link.click();
+    URL.revokeObjectURL(url);
   }
 }
 
