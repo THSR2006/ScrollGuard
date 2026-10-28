@@ -236,25 +236,41 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true;
   }
   if (message.type === "GET_STATE") {
-    getState().then((state) => sendResponse(state));
+    getState()
+      .then((state) => sendResponse(state))
+      .catch((error) => {
+        console.error("ScrollGuard state error", error);
+        sendResponse({ ok: false });
+      });
     return true;
   }
   if (message.type === "GET_ENFORCEMENT") {
-    getState().then(async (state) => {
-      if (state.limitState.date !== todayKey())
-        state.limitState = freshLimitState();
-      const result = await evaluateLimits(state);
-      sendResponse({
-        active: ["watch"].filter(
-          (type) =>
-            state.limitState.blocked[type] && !state.limitState.ignored[type],
-        ),
-        settings: state.settings,
-        messages: result.newlyBlocked.map((type) =>
-          limitMessage(type, state.settings),
-        ),
+    getState()
+      .then(async (state) => {
+        if (state.limitState.date !== todayKey())
+          state.limitState = freshLimitState();
+        const result = await evaluateLimits(state);
+        sendResponse({
+          active: ["watch"].filter(
+            (type) =>
+              state.limitState.blocked[type] && !state.limitState.ignored[type],
+          ),
+          settings: state.settings,
+          messages: result.newlyBlocked.map((type) =>
+            limitMessage(type, state.settings),
+          ),
+        });
+      })
+      .catch((error) => {
+        console.error("ScrollGuard enforcement error", error);
+        sendResponse({
+          ok: false,
+          error: "Unable to evaluate enforcement state.",
+          active: [],
+          settings: sanitizeSettings(),
+          messages: [],
+        });
       });
-    });
     return true;
   }
   if (message.type === "UPDATE_SETTINGS") {
