@@ -706,18 +706,22 @@ try {
 // Navigation and timeframe bindings
 $("btnOpenUnifiedStats").onclick = () => switchView("viewUnifiedStats");
 $("btnBackFromUnified").onclick = () => switchView("viewOverview");
+function selectTimeframe(timeframe) {
+  unifiedTimeframe = timeframe;
+  const selectedId = `tf${timeframe[0].toUpperCase()}${timeframe.slice(1)}`;
+  ["tfDay", "tfWeek", "tfMonth"].forEach((buttonId) => {
+    $(buttonId).classList.toggle("active", buttonId === selectedId);
+    $(buttonId).setAttribute("aria-selected", buttonId === selectedId ? "true" : "false");
+  });
+  renderUnifiedStats();
+}
 [
   ["tfDay", "day"],
   ["tfWeek", "week"],
   ["tfMonth", "month"],
 ].forEach(([id, timeframe]) => {
   $(id).onclick = () => {
-    unifiedTimeframe = timeframe;
-    ["tfDay", "tfWeek", "tfMonth"].forEach((buttonId) => {
-      $(buttonId).classList.toggle("active", buttonId === id);
-      $(buttonId).setAttribute("aria-selected", buttonId === id ? "true" : "false");
-    });
-    renderUnifiedStats();
+    selectTimeframe(timeframe);
   };
 });
 
