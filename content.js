@@ -129,6 +129,9 @@
     const isDark = message.theme === "dark";
     const root = document.createElement("div");
     root.id = "scrollguard-limit";
+    root.setAttribute("role", "dialog");
+    root.setAttribute("aria-modal", "true");
+    root.setAttribute("aria-label", "ScrollGuard daily limit reached");
     root.style.cssText =
       `position:fixed;inset:0;background:${isDark ? "rgba(10,14,24,.86)" : "rgba(245,246,248,.88)"};z-index:2147483647;display:grid;place-items:center;font:16px system-ui;color:${isDark ? "#edf0f3" : "#20252b"};`;
     const card = document.createElement("div");
@@ -156,6 +159,7 @@
     ].forEach(([action, label, variant]) => {
       const button = document.createElement("button");
       button.type = "button";
+      button.setAttribute("aria-label", label);
       button.textContent = label;
       button.style.cssText =
         `padding:9px 14px;border:1px solid ${isDark ? "#59636e" : "#b7bec8"};border-radius:8px;background:${variant === "primary" ? (isDark ? "#60a5fa" : "#2563eb") : "transparent"};color:${variant === "primary" ? "#fff" : isDark ? "#edf0f3" : "#20252b"};font:inherit;cursor:pointer;`;
