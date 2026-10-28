@@ -593,6 +593,14 @@ function renderDetailedCategories() {
 
 // Main Render Function
 function render() {
+  if (state.limitState.date !== today()) {
+    state.limitState = {
+      date: today(),
+      blocked: {},
+      ignored: {},
+      baseline: { watch: 0 },
+    };
+  }
   const day = state.days[today()] || {
     watchSeconds: 0,
     videos: 0,
