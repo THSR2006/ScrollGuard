@@ -1,10 +1,10 @@
 {
   "manifest_version": 3,
   "name": "ScrollGuard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Track and manage your short-form video usage with daily watch limits, mindful break alerts, and detailed usage reports.",
   "author": "Hemanth Sri Ram",
-  "homepage_url": "https://github.com/YOUR-USERNAME/scrollguard",
+  "homepage_url": "https://github.com/THSR2006/ScrollGuard",
   "permissions": ["storage", "tabs", "downloads"],
   "host_permissions": [
     "https://www.youtube.com/*",
