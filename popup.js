@@ -36,6 +36,15 @@ const formatChartValue = (seconds, compact = false) => {
   return formatHoursMins(seconds);
 };
 
+const escapeHtml = (value) =>
+  String(value).replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  })[character]);
+
 const isSafeImageSource = (value) =>
   typeof value === "string" &&
   (/^data:image\//i.test(value) ||
@@ -560,7 +569,7 @@ function renderDetailedCategories() {
         <div class="detailed-cat-meta">
           <div class="cat-name-group">
             <span class="c-dot cat-seg-${index % 5}"></span>
-            <span>${name}</span>
+            <span>${escapeHtml(name)}</span>
           </div>
           <div class="cat-val-group">
             <strong>${formatHoursMins(sec)}</strong>
@@ -640,7 +649,7 @@ function render() {
         ([name, sec], idx) => `
         <div class="category-item-row">
           <span class="c-dot cat-seg-${idx % 5}"></span>
-          <span class="c-name">${name}</span>
+          <span class="c-name">${escapeHtml(name)}</span>
           <span class="c-time">${formatHoursMins(sec)}</span>
         </div>
       `,
