@@ -182,13 +182,13 @@ const emptyStats = () => ({
 function aggregateDays(dates) {
   return dates.reduce((total, dateKey) => {
     const day = state.days?.[dateKey] || emptyStats();
-    total.watchSeconds += day.watchSeconds || 0;
-    total.videos += day.videos || 0;
+    total.watchSeconds += Number(day.watchSeconds) || 0;
+    total.videos += Number(day.videos) || 0;
     Object.entries(day.categories || {}).forEach(([name, seconds]) => {
-      total.categories[name] = (total.categories[name] || 0) + seconds;
+      total.categories[name] = (total.categories[name] || 0) + (Number(seconds) || 0);
     });
     Object.entries(day.platforms || {}).forEach(([name, seconds]) => {
-      total.platforms[name] = (total.platforms[name] || 0) + seconds;
+      total.platforms[name] = (total.platforms[name] || 0) + (Number(seconds) || 0);
     });
     return total;
   }, emptyStats());
