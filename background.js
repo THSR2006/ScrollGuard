@@ -281,7 +281,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           state.limitState.date === day ? state.limitState : freshLimitState();
         const current = state.days[day] || emptyDay();
         state.limitState.baseline = state.limitState.baseline || { watch: 0 };
-        if (message.limitType !== "watch") {
+        if (
+          message.limitType !== "watch" ||
+          !["resume", "ignore"].includes(message.action)
+        ) {
           sendResponse({ ok: false });
           return;
         }
